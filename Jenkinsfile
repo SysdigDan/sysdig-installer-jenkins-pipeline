@@ -12,6 +12,10 @@ def getSecrets() {
           }
 }
 
+def sysdigPrepare() {
+  sh "make sysdig-prepare"
+}
+
 def installerVersion() {
   sh "make sysdig-installer-version"
 }
@@ -70,8 +74,8 @@ pipeline {
           stages {
             stage('Sysdig Installer - Start') {
               steps {
-                sysdig-prepare()
                 getSecrets()
+                sysdigPrepare()
                 installerVersion()
               }
             }
