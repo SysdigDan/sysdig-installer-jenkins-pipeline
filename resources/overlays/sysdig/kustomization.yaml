@@ -1,0 +1,60 @@
+bases:
+  - ../../base/installer-generated
+
+secretGenerator:
+  - name: sysdigcloud-anchore
+    namespace: sysdig
+    behavior: merge
+    type: "Opaque"
+    files:
+      - anchore.admin.password=./secrets/retrieved/anchore_admin_password
+      - anchore.db.password=./secrets/retrieved/anchore_db_password
+
+  - name: sysdigcloud-policy-advisor
+    namespace: sysdig
+    behavior: merge
+    type: "Opaque"
+    files:
+      - padvisor.mysql.password=./secrets/retrieved/padvisor_mysql_password
+
+  - name: sysdigcloud-profiling
+    namespace: sysdig
+    behavior: merge
+    type: "Opaque"
+    files:
+      - profiling.db.password=./secrets/retrieved/profiling_db_password
+
+  - name: sysdigcloud-scanning
+    namespace: sysdig
+    behavior: merge
+    type: "Opaque"
+    files:
+      - scanning.mysql.password=./secrets/retrieved/scanning_mysql_password
+
+  - name: sysdigcloud-nats-streaming-tls
+    namespace: sysdig
+    behavior: merge
+    type: "Opaque"
+    files:
+      - NATS_STREAMING_PASSWORD=./secrets/retrieved/nats_secure_password
+
+configMapGenerator:
+  - name: sysdigcloud-config
+    namespace: sysdig
+    behavior: merge
+    files:
+      - mysql.password=./secrets/retrieved/mysql_password
+      - mysql.root.password=./secrets/retrieved/mysql_root_password
+      - cassandra.password=./secrets/retrieved/cassandra_password
+      - redis.password=./secrets/retrieved/redis_password
+      - nats.secure.password=./secrets/retrieved/nats_secure_password
+      - smtp.password=./secrets/retrieved/smtp_password
+      - sysdigcloud.default.user.password=./secrets/retrieved/sysdigcloud_default_user_password
+      - sysdigcloud.license=./secrets/retrieved/sysdig_license
+      - scanning.service.token=./secrets/retrieved/scanning_service_token
+      - secure.overview.service.token=./secrets/retrieved/secure_overview_service_token
+      - compliance.service.token=./secrets/retrieved/compliance_service_token
+      - events.service.token=./secrets/retrieved/events_service_token
+
+generatorOptions:
+  disableNameSuffixHash: true

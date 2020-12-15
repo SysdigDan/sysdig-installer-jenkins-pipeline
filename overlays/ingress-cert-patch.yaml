@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: haproxy-ingress
+spec:
+  template:
+    spec:
+      containers:
+      - args:
+        - --default-backend-service=$(POD_NAMESPACE)/ingress-default-backend
+        - --allow-cross-namespace
+        - --configmap=$(POD_NAMESPACE)/haproxy-ingress
+        - --tcp-services-configmap=$(POD_NAMESPACE)/haproxy-tcp-services
+        - --default-ssl-certificate=$(POD_NAMESPACE)/sysdigcloud-letsencrypt-ssl-secret
+        name: haproxy-ingress
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+  name: sysdigcloud-api-ingress
+spec:
+  tls:
+  - hosts:
+    - sysdig.moloneyfamily.com.au
+    secretName: sysdigcloud-letsencrypt-ssl-secret
